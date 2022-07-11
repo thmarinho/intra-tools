@@ -13,7 +13,7 @@ const btnStyle = "background-color: #ff7600; font-size: 10px; color: black; padd
   sauronBtn.style = btnStyle;
 
   const teamsBtn = document.createElement("a");
-  teamsBtn.href = `https://teams.microsoft.com;/l/chat/0/0?users=${email}`;
+  teamsBtn.href = `https://teams.microsoft.com/l/chat/0/0?users=${email}`;
   teamsBtn.text = "Call with teams";
   teamsBtn.target = "_blank";
   teamsBtn.style = btnStyle;
