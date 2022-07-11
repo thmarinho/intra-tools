@@ -1,43 +1,15 @@
 {
-    "name": "Refined intra Epitech",
-    "description": "This extension aim to upgrade the user experience on the epitech's intra",
-    "version": "1.0.1",
-    "manifest_version": 2,
-    "options_page": "options.html",
-    "content_scripts": [
-        {
-            "matches": [
-                "*://intra.epitech.eu/*"
-            ],
-            "css": [
-                "addon.css"
-            ],
-            "js": [
-                "scripts/all.js",
-                "scripts/script.js",
-                "scripts/modules.js",
-                "scripts/user.js", 
-                "scripts/event.js",
-                "scripts/project.js",
-                "scripts/sidebar.js"
-
-            ]
-        }
-    ],
-    "permissions": [
-        "storage",
-        "webRequestBlocking",
-        "webRequest",
-        "cookies",
-        "*://intra.epitech.eu/*"
-    ],
-    "background": {
-        "scripts": [
-            "background.js"
-        ],
-        "persistent": true
-    },
-    "icons": {
-        "512": "icons/epitech.png"
+  "name": "Intra tools",
+  "description": "Random useless tools",
+  "version": "1.0",
+  "permissions": [
+    "activeTab"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["https://intra.epitech.eu/*"],
+      "js": ["content-script.js"]
     }
+  ],
+  "manifest_version": 3
 }
