@@ -1,4 +1,4 @@
-const btnStyle = "background-color: #ff7600; font-size: 10px; color: black; padding: 5px 10px; margin-left: 5px; border-radius: 5px";
+const btnStyle = "background-color: #ff7600; font-size: 10px; color: black; padding: 5px 10px; margin: 0px 10px; border-radius: 5px";
 
 (() => {
   // Profile
@@ -71,6 +71,48 @@ const btnStyle = "background-color: #ff7600; font-size: 10px; color: black; padd
         updateModulesName(s);
       })
     });
+  });
+
+  observer.observe(sidebar, { attributes: true, childList: true, subtree: true });
+})();
+
+(() => {
+  // Jenkins
+  const projects = document.querySelectorAll("a.info.project");
+
+  projects.forEach(project => {
+    const link = project.href.split('/');
+    const code = link[5];
+    const city = link[6];
+    const splittedCode = code.split('-');
+    const shortCode = `${splittedCode[0]}-${splittedCode[1]}`;
+
+
+    const li = project.parentElement.parentElement;
+    const projectName = li.children[5].textContent;
+    const formattedProjectName = projectName.charAt(0).toLowerCase() + projectName.slice(1);
+
+    const jenkinsBtn = document.createElement("a");
+    jenkinsBtn.href = `https://jenkins.epitest.eu/view/${shortCode}/job/${code}/job/${formattedProjectName}/job/2021/job/${city}/`;
+    jenkinsBtn.text = "Go to jenkins";
+    jenkinsBtn.target = "_blank";
+    jenkinsBtn.style = btnStyle;
+    li.children[2].append(jenkinsBtn);
+    li.children[2].style = "display: inline-flex; background: #0000; align-items: center; flex-direction: row-reverse; text-transform: inherit;";
+  });
+})();
+
+(() => {
+  // Epitech digital
+  if (!window.location.href.startsWith('https://intra.epitech.eu/planning/#!')) return;
+
+  const observer = new MutationObserver((mutationsList, observer) => {
+    const events = document.getElementsByClassName("appoint");
+
+    Array.from(events).forEach(event => {
+      if (event.textContent.toLocaleLowerCase().includes("epitech digital"))
+        event.style = "display: none;"
+    })
   });
 
   observer.observe(sidebar, { attributes: true, childList: true, subtree: true });
