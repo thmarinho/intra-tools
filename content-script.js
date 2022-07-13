@@ -51,25 +51,25 @@ const btnStyle = "background-color: #ff7600; font-size: 10px; color: black; padd
 
   function updateModulesName(s) {
     if (!s.href.includes("/module/") || !s.href.endsWith("/all"))
-      return
+      return;
     const uri = s.href.split('/');
     const i = uri.indexOf("module");
-    const code_module = uri[i + 2]
+    const code_module = uri[i + 2];
     if (!s.text.startsWith('[' + code_module + ']')) {
       s.text = '[' + code_module + ']' + " " + s.text;
     }
   }
 
   const observer = new MutationObserver((mutationsList, observer) => {
-    const mutations = mutationsList.filter((m) => m.target && m.target.nodeName === "DD")
-    const semesters = mutations.map((m) => m.target)
-    const modules = semesters.map((s) => s.children).flat().map((h) => [...h]).flat().filter((value, index, self) => self.indexOf(value) === index)
+    const mutations = mutationsList.filter((m) => m.target && m.target.nodeName === "DD");
+    const semesters = mutations.map((m) => m.target);
+    const modules = semesters.map((s) => s.children).flat().map((h) => [...h]).flat().filter((value, index, self) => self.indexOf(value) === index);
     modules.forEach((m) => {
       m.style = 'overflow:hidden;';
       const sections = m.getElementsByTagName('a');
       Array.prototype.forEach.call(sections, (s) => {
         updateModulesName(s);
-      })
+      });
     });
   });
 
@@ -111,8 +111,8 @@ const btnStyle = "background-color: #ff7600; font-size: 10px; color: black; padd
 
     Array.from(events).forEach(event => {
       if (event.textContent.toLocaleLowerCase().includes("epitech digital"))
-        event.style = "display: none;"
-    })
+        event.style = "display: none;";
+    });
   });
 
   observer.observe(sidebar, { attributes: true, childList: true, subtree: true });
