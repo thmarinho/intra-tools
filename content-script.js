@@ -25,26 +25,6 @@ const btnStyle = "background-color: #ff7600; font-size: 10px; color: black; padd
 })();
 
 (() => {
-  // Group
-  if (!window.location.href.endsWith("#!/group")) return;
-
-  Array.from(document.getElementsByClassName("wrapper")).map((group, idx) => {
-    if (idx == 0) return;
-    return group;
-  }).filter(e => e).forEach((group) => {
-    const emails = Array.from(group.children[2].children).map(user => user.dataset.memberLogin);
-
-    const teamsBtn = document.createElement("a");
-    teamsBtn.href = `https://teams.microsoft.com/l/chat/0/0?users=${emails.join(',')}`;
-    teamsBtn.text = "Call with teams";
-    teamsBtn.target = "_blank";
-    teamsBtn.style = btnStyle;
-    group.getElementsByClassName("groupinfo")[0].append(teamsBtn);
-
-  })
-})();
-
-(() => {
   // Sidebar
   const sidebar = document.getElementById('sidebar');
   if (!sidebar) return
@@ -90,10 +70,12 @@ const btnStyle = "background-color: #ff7600; font-size: 10px; color: black; padd
 
     const li = project.parentElement.parentElement;
     const projectName = li.children[5].textContent;
-    const formattedProjectName = projectName.charAt(0).toLowerCase() + projectName.slice(1);
+    const formattedProjectName = (projectName.toLowerCase()).replaceAll(' ', '');
+
+    console.log(formattedProjectName)
 
     const jenkinsBtn = document.createElement("a");
-    jenkinsBtn.href = `https://jenkins.epitest.eu/view/${shortCode}/job/${code}/job/${formattedProjectName}/job/2021/job/${city}/`;
+    jenkinsBtn.href = `https://jenkins.epitest.eu/view/${shortCode}/job/${code}/job/${formattedProjectName}/job/2023/job/${city}/`;
     jenkinsBtn.text = "Go to jenkins";
     jenkinsBtn.target = "_blank";
     jenkinsBtn.style = btnStyle;
@@ -103,14 +85,74 @@ const btnStyle = "background-color: #ff7600; font-size: 10px; color: black; padd
 })();
 
 (() => {
-  // Epitech digital
-  if (!window.location.href.startsWith('https://intra.epitech.eu/planning/#!')) return;
+  // Calendar colors
+  if (!window.location.href.startsWith('https://intra.epitech.eu/planning/#')) return;
+
+  const observer = new MutationObserver((mutationsList, observer) => {
+    const events = document.getElementsByClassName("appoint");
+
+    const palette = {
+      '': "#21A0A0",
+
+      'kick-off': "#665687",
+      'bootstrap': "#665687",
+
+      'follow-up': '#549F93',
+
+      'hub': '#ffcb77',
+
+      'delivery': '#798071',
+      'defense': '#798071',
+
+      'stumper': '#dd7373',
+      'kyt/cat': '#dd7373',
+      'tepitech': '#dd7373',
+    }
+
+    Array.from(events).forEach(event => {
+      txt = event.textContent.toLocaleLowerCase()
+
+      Object.keys(palette).forEach(key => {
+        if (txt.includes(key)) {
+          event.style['background-color'] = palette[key]
+          event.lastChild.style['background-color'] = palette[key]
+          event.style.color = 'black!important'
+          return
+        }
+      })
+    });
+  });
+
+  observer.observe(sidebar, { attributes: true, childList: true, subtree: true });
+})();
+
+(() => {
+  // Useless activities in calendar
+  if (!window.location.href.startsWith('https://intra.epitech.eu/planning/#')) return;
 
   const observer = new MutationObserver((mutationsList, observer) => {
     const events = document.getElementsByClassName("appoint");
 
     Array.from(events).forEach(event => {
-      if (event.textContent.toLocaleLowerCase().includes("epitech digital"))
+      txt = event.textContent.toLocaleLowerCase()
+      if (!window.location.href.includes("seeAll") && (
+        txt.includes("epitech digital") ||
+        txt.includes("suivi des sessions de formation") ||
+        txt.includes("emargementmsclyon") ||
+        txt.includes("susie") ||
+        txt.match(/w[0-9]/) ||
+        (txt.includes("school life") && !txt.includes('rencontre')) ||
+        txt.includes("cold case") ||
+        txt.includes("pcp") ||
+        txt.includes("promoting epitech") ||
+        txt.includes("paradigms seminar") ||
+        (txt.includes("coaching") && !txt.includes("technical coaching")) ||
+        txt.includes("epitech diversity") ||
+        txt.includes("coding pool") ||
+        txt.includes("coding club") ||
+        txt.includes("tech 0") ||
+        txt.includes("résa msc")
+      ))
         event.style = "display: none;";
     });
   });
