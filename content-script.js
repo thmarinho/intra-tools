@@ -103,6 +103,7 @@ const btnStyle = "background-color: #ff7600; font-size: 10px; color: black; padd
 
       'delivery': '#798071',
       'defense': '#798071',
+      'evaluation': '#798071',
 
       'stumper': '#dd7373',
       'kyt/cat': '#dd7373',
